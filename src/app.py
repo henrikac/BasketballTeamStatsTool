@@ -7,14 +7,10 @@ Project 2 - Basketball Team Stats Tool
 
 from constants import PLAYERS, TEAMS
 import os
+import random
 
 
 MENU_OPTIONS = ['Display Team Stats', 'Quit']
-
-
-panthers = dict()
-bandits = dict()
-warriors = dict()
 
 
 def clear_console():
@@ -59,7 +55,84 @@ def prompt_user(prompt_msg, num_options):
             return user_input
 
 
+def cleaned_data():
+    """Cleans the PLAYERS data
+    Converts the height into an integer
+    Converts experience into a boolean (True/False)
+    Returns a set containing the cleaned PLAYERS data
+    """
+    players = []
+
+    for player in PLAYERS:
+        try:
+            player["height"] = int(player["height"][:2])
+        except ValueError as err:
+            print(f'Error: {err}')
+        else:
+            if player["experience"] == "YES":
+                player["experience"] = True
+            else:
+                player["experience"] = False
+
+        players.append(player)
+
+    return players
+
+
+def extract_players(players, experienced):
+    """Extracts players depending on their experience
+    Returns the extracted players
+    """
+    extracted_players = []
+    for player in players:
+        for key, value in player.items():
+            if key == "experience" and value == experienced:
+                extracted_players.append(player)
+
+    return extracted_players
+
+
+def create_team(players):
+    """Creates a balanced team with equal numbers of experiencd and unexperienced players
+    Players added to the team is randomly picked
+    Returns the created team and the remaining players
+    """
+    players = players
+
+    exp_players = extract_players(players, True)
+    unexp_players = extract_players(players, False)
+    team = random.sample(exp_players, k=3) + random.sample(unexp_players, k=3)
+
+    players = [player for player in players if player not in team]
+
+    return (team, players)
+    
+
+
+def generate_teams():
+    """Generates the teams"""
+    players = cleaned_data()
+
+    panthers, players = create_team(players)
+    bandits, players = create_team(players)
+    warriors, players = create_team(players)
+
+    return (panthers, bandits, warriors)
+
+
+def display_team(team):
+    """Display the players on a team"""
+    players = [player["name"] for player in team]
+
+    print('TEAM: TEAMNAME')  # Insert teamname here
+    print('----------------')
+    print(f'Total players: {len(team)}\n')
+    print('Players on team:')
+    print(", ".join(players))
+
+
 def start():
+    """Main function that runs the program"""
     still_running = True
 
     while still_running:
@@ -81,12 +154,6 @@ def start():
                     checking_teams = False
 
 
-"""
-1. create intro / menu
-2. add players to teams
-3. display teams
-"""
-
-
 if __name__ == '__main__':
     start()
+
