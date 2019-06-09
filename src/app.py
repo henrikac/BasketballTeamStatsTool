@@ -26,7 +26,6 @@ def display_options(options):
 
 def display_menu(title, options):
     """Displays a menu"""
-
     clear_console()
     print('BASKETBALL TEAM STATS TOOL\n')
     print(f'---- {title} ----\n')
@@ -88,13 +87,7 @@ def extract_players(players, experienced):
     """Extracts players depending on their experience
     Returns the extracted players
     """
-    extracted_players = []
-    for player in players:
-        for key, value in player.items():
-            if key == "experience" and value == experienced:
-                extracted_players.append(player)
-
-    return extracted_players
+    return [player for player in players if player["experience"] == experienced]
 
 
 def create_team(players):
