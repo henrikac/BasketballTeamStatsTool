@@ -101,8 +101,12 @@ def create_team(players):
 
     exp_players = extract_players(players, True)
     unexp_players = extract_players(players, False)
+
+    # selects 6 players randomly
+    # 3 experienced players and 3 unexperienced players
     team = random.sample(exp_players, k=3) + random.sample(unexp_players, k=3)
 
+    # removes the picked players from the list of available players
     players = [player for player in players if player not in team]
 
     return (team, players)
