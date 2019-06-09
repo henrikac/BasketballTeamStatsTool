@@ -79,6 +79,11 @@ def cleaned_data():
     return players
 
 
+def get_avg_height(team):
+    """Calculates the average height of a team"""
+    return sum([player["height"] for player in team]) / len(team)
+
+
 def extract_players(players, experienced):
     """Extracts players depending on their experience
     Returns the extracted players
@@ -124,20 +129,24 @@ def generate_teams():
     return (panthers, bandits, warriors)
 
 
-def display_team(team):
+def display_team(team_name, team):
     """Display the players on a team"""
     players = [player["name"] for player in team]
 
-    print('TEAM: TEAMNAME')  # Insert teamname here
+    clear_console()
+    print(f'TEAM: {team_name}')
     print('----------------')
-    print(f'Total players: {len(team)}\n')
+    print(f'Total players: {len(team)}')
+    print(f'Average height: {get_avg_height(team)}\n')
     print('Players on team:')
-    print(", ".join(players))
+    print(f'\t{", ".join(players)}')
+    input('\nPress ENTER to continue...')
 
 
 def start():
     """Main function that runs the program"""
     still_running = True
+    teams = generate_teams()
 
     while still_running:
         display_menu('MENU', MENU_OPTIONS)
@@ -149,6 +158,7 @@ def start():
             checking_teams = True
 
             while checking_teams:
+                team_names = ['PANTHERS', 'BANDITS', 'WARRIORS']
                 team_menu = TEAMS + ['Main menu']
                 display_menu('TEAMS', team_menu)
 
@@ -156,6 +166,9 @@ def start():
 
                 if user_input == 4:
                     checking_teams = False
+                else:
+                    idx = user_input - 1
+                    display_team(team_names[idx], teams[idx])
 
 
 if __name__ == '__main__':
