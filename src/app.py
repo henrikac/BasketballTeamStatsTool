@@ -91,7 +91,7 @@ def extract_players(players, experienced):
 
 
 def create_team(players):
-    """Creates a balanced team with equal numbers of experiencd and unexperienced players
+    """Creates a balanced team with equal numbers of experiencd and inexperienced players
     Players added to the team is randomly picked
     Returns the created team and the remaining players
     """
