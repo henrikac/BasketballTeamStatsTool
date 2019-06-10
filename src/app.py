@@ -6,6 +6,7 @@ Project 2 - Basketball Team Stats Tool
 
 
 from constants import PLAYERS, TEAMS
+import copy
 import os
 import random
 
@@ -60,9 +61,9 @@ def cleaned_data():
     Converts experience into a boolean (True/False)
     Returns a set containing the cleaned PLAYERS data
     """
-    players = []
+    players = copy.deepcopy(PLAYERS)
 
-    for player in PLAYERS:
+    for player in players:
         try:
             player["height"] = int(player["height"][:2])
         except ValueError as err:
@@ -72,8 +73,6 @@ def cleaned_data():
                 player["experience"] = True
             else:
                 player["experience"] = False
-
-        players.append(player)
 
     return players
 
