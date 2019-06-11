@@ -82,6 +82,15 @@ def get_avg_height(team):
     return sum([player["height"] for player in team]) / len(team)
 
 
+def display_players_experience(team):
+    """Display the experience of the players on a team"""
+    exp_players = [player for player in team if player["experience"] == True]
+    num_exp_players = len(exp_players)
+    
+    print(f'Number of experienced players: {num_exp_players}')
+    print(f'Number of inexperienced players: {len(team) - num_exp_players}')
+
+
 def extract_players(players, experienced):
     """Extracts players depending on their experience
     Returns the extracted players
@@ -129,8 +138,9 @@ def display_team(team_name, team):
     print(f'TEAM: {team_name}')
     print('----------------')
     print(f'Total players: {len(team)}')
-    print(f'Average height: {get_avg_height(team)}\n')
-    print('Players on team:')
+    print(f'Average height: {get_avg_height(team)}')
+    display_players_experience(team)
+    print('\nPlayers on team:')
     print(f'\t{", ".join(players)}')
     input('\nPress ENTER to continue...')
 
