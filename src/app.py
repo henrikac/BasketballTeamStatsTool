@@ -74,6 +74,8 @@ def cleaned_data():
             else:
                 player["experience"] = False
 
+            player["guardians"] = player["guardians"].split(' and ')
+
     return players
 
 
@@ -131,16 +133,22 @@ def display_team_stats(team):
     print(f'Number of inexperienced players: {len(team) - num_exp_players}')
 
 
+def display_names(title, names_list):
+    print(f'\n{title}:')
+    print(f'\t{", ".join(names_list)}')
+
+
 def display_team(team_name, team):
     """Display the players on a team"""
     players = [player["name"] for player in team]
+    guardians = [guardian for player in team for guardian in player["guardians"]]
 
     clear_console()
     print(f'TEAM: {team_name}')
     print('----------------')
     display_team_stats(team)
-    print('\nPlayers on team:')
-    print(f'\t{", ".join(players)}')
+    display_names('Players on team', players)
+    display_names('Guardians', guardians)
     input('\nPress ENTER to continue...')
 
 
@@ -162,7 +170,7 @@ def start():
                 team_menu = TEAMS + ['Main menu']
                 display_menu('TEAMS', team_menu)
 
-                user_input = prompt_user('\nEnter team: ', len(TEAMS))
+                user_input = prompt_user('\nEnter team: ', len(team_menu))
 
                 if user_input == 4:
                     checking_teams = False
