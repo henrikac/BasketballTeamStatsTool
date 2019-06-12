@@ -59,6 +59,7 @@ def cleaned_data():
     """Cleans the PLAYERS data
     Converts the height into an integer
     Converts experience into a boolean (True/False)
+    Converts guardians into a list of names
     Returns a set containing the cleaned PLAYERS data
     """
     players = copy.deepcopy(PLAYERS)
@@ -123,7 +124,7 @@ def generate_teams():
 
 
 def display_team_stats(team):
-    """Display the experience of the players on a team"""
+    """Display the stats of a team"""
     exp_players = [player for player in team if player["experience"] == True]
     num_exp_players = len(exp_players)
     
@@ -134,12 +135,13 @@ def display_team_stats(team):
 
 
 def display_names(title, names_list):
+    """Display names in a list"""
     print(f'\n{title}:')
     print(f'\t{", ".join(names_list)}')
 
 
 def display_team(team_name, team):
-    """Display the players on a team"""
+    """Display a team"""
     players = [player["name"] for player in team]
     guardians = [guardian for player in team for guardian in player["guardians"]]
 
