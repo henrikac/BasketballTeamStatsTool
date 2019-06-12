@@ -97,8 +97,6 @@ def create_team(players):
     Players added to the team is randomly picked
     Returns the created team and the remaining players
     """
-    players = players
-
     exp_players = extract_players(players, True)
     inexp_players = extract_players(players, False)
 
