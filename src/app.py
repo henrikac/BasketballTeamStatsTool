@@ -82,15 +82,6 @@ def get_avg_height(team):
     return sum([player["height"] for player in team]) / len(team)
 
 
-def display_players_experience(team):
-    """Display the experience of the players on a team"""
-    exp_players = [player for player in team if player["experience"] == True]
-    num_exp_players = len(exp_players)
-    
-    print(f'Number of experienced players: {num_exp_players}')
-    print(f'Number of inexperienced players: {len(team) - num_exp_players}')
-
-
 def extract_players(players, experienced):
     """Extracts players depending on their experience
     Returns the extracted players
@@ -116,7 +107,6 @@ def create_team(players):
     players = [player for player in players if player not in team]
 
     return (team, players)
-    
 
 
 def generate_teams():
@@ -130,6 +120,17 @@ def generate_teams():
     return (panthers, bandits, warriors)
 
 
+def display_team_stats(team):
+    """Display the experience of the players on a team"""
+    exp_players = [player for player in team if player["experience"] == True]
+    num_exp_players = len(exp_players)
+    
+    print(f'Total players: {len(team)}')
+    print(f'Average height: {get_avg_height(team)}')
+    print(f'Number of experienced players: {num_exp_players}')
+    print(f'Number of inexperienced players: {len(team) - num_exp_players}')
+
+
 def display_team(team_name, team):
     """Display the players on a team"""
     players = [player["name"] for player in team]
@@ -137,9 +138,7 @@ def display_team(team_name, team):
     clear_console()
     print(f'TEAM: {team_name}')
     print('----------------')
-    print(f'Total players: {len(team)}')
-    print(f'Average height: {get_avg_height(team)}')
-    display_players_experience(team)
+    display_team_stats(team)
     print('\nPlayers on team:')
     print(f'\t{", ".join(players)}')
     input('\nPress ENTER to continue...')
@@ -160,17 +159,16 @@ def start():
             checking_teams = True
 
             while checking_teams:
-                team_names = ['PANTHERS', 'BANDITS', 'WARRIORS']
                 team_menu = TEAMS + ['Main menu']
                 display_menu('TEAMS', team_menu)
 
-                user_input = prompt_user('\nEnter team: ', len(team_menu))
+                user_input = prompt_user('\nEnter team: ', len(TEAMS))
 
                 if user_input == 4:
                     checking_teams = False
                 else:
                     idx = user_input - 1
-                    display_team(team_names[idx], teams[idx])
+                    display_team(TEAMS[idx], teams[idx])
 
 
 if __name__ == '__main__':
