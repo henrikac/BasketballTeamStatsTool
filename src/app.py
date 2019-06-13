@@ -9,23 +9,24 @@ from constants import PLAYERS, TEAMS
 import copy
 import os
 import random
+from typing import List, Tuple
 
 
 MENU_OPTIONS = ['Display Team Stats', 'Quit']
 
 
-def clear_console():
+def clear_console() -> None:
     """Clears the console"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def display_options(options):
+def display_options(options: List) -> None:
     """Iterate over a collection and prints out the index and value"""
     for count, option in enumerate(options):
         print(f'{count + 1}) {option}')
 
 
-def display_menu(title, options):
+def display_menu(title: str, options: List) -> None:
     """Displays a menu"""
     clear_console()
     print('BASKETBALL TEAM STATS TOOL\n')
@@ -34,7 +35,7 @@ def display_menu(title, options):
     display_options(options)
 
 
-def prompt_user(prompt_msg, num_options):
+def prompt_user(prompt_msg: str, num_options: int) -> int:
     """Prompts the user for an option (int) between 1 and 'num_options'
     Returns the user response
     """
@@ -42,10 +43,8 @@ def prompt_user(prompt_msg, num_options):
     MAX_OPTION = num_options
 
     while True:
-        user_input = input(prompt_msg)
-
         try:
-            user_input = int(user_input)
+            user_input = int(input(prompt_msg))
 
             if user_input < MIN_OPTION or user_input > MAX_OPTION:
                 raise ValueError(f'Please only a option between {MIN_OPTION} and {MAX_OPTION}')
@@ -55,7 +54,7 @@ def prompt_user(prompt_msg, num_options):
             return user_input
 
 
-def cleaned_data():
+def cleaned_data() -> List:
     """Cleans the PLAYERS data
     Converts the height into an integer
     Converts experience into a boolean (True/False)
@@ -80,19 +79,19 @@ def cleaned_data():
     return players
 
 
-def get_avg_height(team):
+def get_avg_height(team: List) -> float:
     """Calculates the average height of a team"""
     return sum([player["height"] for player in team]) / len(team)
 
 
-def extract_players(players, experienced):
+def extract_players(players: List, experienced: bool) -> List:
     """Extracts players depending on their experience
     Returns the extracted players
     """
     return [player for player in players if player["experience"] == experienced]
 
 
-def create_team(players):
+def create_team(players: List) -> Tuple[List, List]:
     """Creates a balanced team with equal numbers of experiencd and inexperienced players
     Players added to the team is randomly picked
     Returns the created team and the remaining players
@@ -110,7 +109,7 @@ def create_team(players):
     return (team, players)
 
 
-def generate_teams():
+def generate_teams() -> Tuple[List, List, List]:
     """Generates the teams"""
     players = cleaned_data()
 
@@ -121,7 +120,7 @@ def generate_teams():
     return (panthers, bandits, warriors)
 
 
-def display_team_stats(team):
+def display_team_stats(team: List) -> None:
     """Display the stats of a team"""
     exp_players = [player for player in team if player["experience"] == True]
     num_exp_players = len(exp_players)
@@ -132,13 +131,13 @@ def display_team_stats(team):
     print(f'Number of inexperienced players: {len(team) - num_exp_players}')
 
 
-def display_names(title, names_list):
+def display_names(title: str, names_list: List) -> None:
     """Display names in a list"""
     print(f'\n{title}:')
     print(f'\t{", ".join(names_list)}')
 
 
-def display_team(team_name, team):
+def display_team(team_name: str, team: List) -> None:
     """Display a team"""
     players = [player["name"] for player in team]
     guardians = [guardian for player in team for guardian in player["guardians"]]
@@ -152,7 +151,7 @@ def display_team(team_name, team):
     input('\nPress ENTER to continue...')
 
 
-def start():
+def start() -> None:
     """Main function that runs the program"""
     still_running = True
     teams = generate_teams()
