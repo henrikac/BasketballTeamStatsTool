@@ -9,7 +9,7 @@ from constants import PLAYERS, TEAMS
 import copy
 import os
 import random
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
 
 MENU_OPTIONS = ['Display Team Stats', 'Quit']
@@ -61,7 +61,7 @@ def cleaned_data() -> List:
     Converts guardians into a list of names
     Returns a set containing the cleaned PLAYERS data
     """
-    players = copy.deepcopy(PLAYERS)
+    players: List[Dict[str, Any]] = copy.deepcopy(PLAYERS)
 
     for player in players:
         try:
